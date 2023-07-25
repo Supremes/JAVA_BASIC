@@ -3,7 +3,7 @@ package org.dododo.entity;
 import lombok.Data;
 
 @Data
-public class family {
+public class Family {
     private long id;
 
     private String name;

@@ -1,6 +1,6 @@
 package org.dododo.service;
 
-import org.dododo.entity.family;
+import org.dododo.entity.Family;
 import org.dododo.mapper.FamilyMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -11,7 +11,7 @@ public class FamilyService {
     @Autowired
     FamilyMapper familyMapper;
 
-    public int insertFamilyMember(family family) throws DataAccessException {
+    public int insertFamilyMember(Family family) throws DataAccessException {
         return familyMapper.insertFamilyMember(family);
     }
 
@@ -19,7 +19,7 @@ public class FamilyService {
         return familyMapper.deleteFamilyMember(name);
     }
 
-    public family getByName(String name) throws DataAccessException {
+    public Family getByName(String name) throws DataAccessException {
         return familyMapper.getByName(name);
     }
 }

@@ -1,6 +1,7 @@
 package org.dododo.controller;
 
-import org.dododo.entity.family;
+import org.dododo.entity.Family;
+import org.dododo.model.vo.ResultVO;
 import org.dododo.service.FamilyService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,36 +16,37 @@ import org.springframework.web.bind.annotation.*;
 public class FamilyController {
     @Autowired
     FamilyService familyService;
-    private static Logger logger = LoggerFactory.getLogger(FamilyController.class);
+    private static final Logger logger = LoggerFactory.getLogger(FamilyController.class);
 
     @PostMapping("family/insert")
-    public ResponseEntity<String> insertFamilyMember(@RequestBody family family) {
+    public ResultVO<?> insertFamilyMember(@RequestBody Family family) {
         int result;
         try {
             result = familyService.insertFamilyMember(family);
-        } catch (DuplicateKeyException exception) {
-            return new ResponseEntity<>("duplicate key error", HttpStatus.BAD_GATEWAY);
+        } catch (DataAccessException exception) {
+            logger.error("exception: {}", exception.getMessage());
+            return ResultVO.error(exception.getMessage());
         }
         logger.debug("insertFamilyMember column: {} successfully ", family);
-        return new ResponseEntity<>("OK", HttpStatus.OK);
+        return ResultVO.ok();
     }
 
     @PostMapping("family/delete")
-    public ResponseEntity<String> deleteFamilyMember(@RequestParam String name) {
+    public ResultVO<?> deleteFamilyMember(@RequestParam String name) {
         try {
            familyService.deleteFamilyMember(name);
         } catch (DataAccessException exception) {
-            logger.error("throw exception: {}", exception.toString());
-            return new ResponseEntity<>("duplicate key error", HttpStatus.BAD_GATEWAY);
+            logger.error("exception: {}", exception.getMessage());
+            return ResultVO.error(exception.getMessage());
         }
         logger.debug("deleteFamilyMember column: {} successfully ", name);
-        return new ResponseEntity<>("OK", HttpStatus.OK);
+        return ResultVO.ok();
     }
 
     @GetMapping("family/get")
-    public family getByName(String name) {
-        family family2 = familyService.getByName(name);
-        logger.debug("getByName family: " + family2.toString());
-        return family2;
+    public ResultVO<Family> getByName(String name) {
+        Family familyInfo = familyService.getByName(name);
+        logger.debug("getByName family: " + familyInfo.toString());
+        return ResultVO.ok(familyInfo);
     }
 }
