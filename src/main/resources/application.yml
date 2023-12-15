@@ -1,12 +1,35 @@
 server:
-  port: 8080
+  port: 9999
 
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://127.0.0.1:3306/Expense?useUnicode=true&characterEncoding=UTF-8&useSSL=false&serverTimezone=GMT%2b8&allowPublicKeyRetrieval=true
     username: root
+
     password: 123456
+  mail:
+    host: smtp.163.com
+    port: 465
+    username: 19972029419@163.com
+    password: HFQTRPUBTVUXGOWH
+    default-encoding: UTF-8
+    properties:
+      mail:
+        smtp:
+          auth: true
+          ssl:
+            enable: true
+        debug: true
+  kafka:
+    producer:
+      bootstrap-servers: localhost:9092 # 会覆盖 spring.kafka.bootstrap-servers 配置
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer # 序列化key的类
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer # 反序列化value的类
+    consumer:
+      bootstrap-servers: localhost:9092 # 会覆盖 spring.kafka.bootstrap-servers 配置
+      key-serializer: org.apache.kafka.common.serialization.StringDeserializer # 反序列化key的类
+      value-serializer: org.springframework.kafka.support.serializer.JsonDeserializer # 反序列化value的类
 
 mybatis:
   # 指定 MyBatis 的 XML 映射文件的位置，mapping/*Mapper.xml 表示 MyBatis 会去 resources/mapping 目录下查找所有以 Mapper 结尾的 xml 文件，作为映射文件。
@@ -28,4 +51,6 @@ logging:
   file:
     path: D:/programing/java-basics/logs
     name: debug.log
+    debug: true
+
 

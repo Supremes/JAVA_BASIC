@@ -1,4 +1,4 @@
-package org.dododo.model.vo;
+package org.dododo.model.VO;
 
 import lombok.Builder;
 import lombok.Data;
